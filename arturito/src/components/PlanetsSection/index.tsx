@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 
 import { swGet } from '../../utils/fetcher';
@@ -31,11 +32,32 @@ const columns = [
   },
 ];
 
+
 const Planets = () => {
-  const { data, error } = useSWR('/planets', swGet);
+  // var [allPlanets, setAllplanets] = useState([]);
+  var { data, error } = useSWR('/planets', swGet);
+  // var planets = [];
+  // const GetPlanets = (url = '/planets') => {
+  //   var plan = [];
+  //   if (!url) return plan;
+  //   swGet(url).then(resp => {
+  //     if (resp.next) {
+  //       plan = [...plan, ...GetPlanets('/planets' + resp.next.split('/').pop()), ...resp.results];
+  //     } else {
+  //       plan = [...plan, ...GetPlanets(null), ...resp.results];
+  //     }
+  //   })
+  //   return plan;
+  // }
+  // useEffect(() => {
+  //   planets = GetPlanets();
+  //   console.log(planets);
+    
+  // });
+
 
   if (error) {
-    return <div className="px-2">Oh oh!</div>;
+    return <div className="px-2">{`Oh oh! ${error}`}</div>;
   }
   if (!data) {
     return <div className="px-2">Loading...</div>;
@@ -43,7 +65,8 @@ const Planets = () => {
 
   return (
     <div>
-      <Table columns={columns} data={data.results.slice(0, 3)} /* :D */ />
+      {/* {planets.length > 0 && console.log(planets)} */}
+      <Table columns={columns} data={data.results} /* :D */ />
     </div>
   );
 };
